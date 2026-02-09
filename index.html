@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine Proposal</title>
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom right, #ffdde1, #ee9ca7);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Floating hearts background */
+        .heart {
+            position: absolute;
+            bottom: -30px;
+            font-size: 20px;
+            animation: floatUp linear infinite;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            from {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-110vh) scale(1.4);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 320px;
+            position: relative;
+            z-index: 2;
+        }
+
+        img {
+            width: 100%;
+            border-radius: 14px;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            color: #e75480;
+            font-size: 22px;
+            margin-bottom: 25px;
+        }
+
+        .buttons {
+            position: relative;
+            height: 90px;
+        }
+
+        button {
+            padding: 10px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+        }
+
+        #noBtn {
+            background-color: #adb5bd;
+            color: white;
+            position: absolute;
+            left: 160px;
+            top: 0;
+            transition: left 0.4s ease, top 0.4s ease;
+            touch-action: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="IMG_0998.HEIC" alt="Our Photo">
+    <h1>Will you be my Valentine? ❤️</h1>
+
+    <div class="buttons">
+        <button id="yesBtn" onclick="yesClicked()">Yes</button>
+        <button id="noBtn">No</button>
+    </div>
+</div>
+
+<script>
+    /* Floating hearts generator */
+    function createHeart() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (4 + Math.random() * 3) + "s";
+        heart.style.fontSize = (16 + Math.random() * 20) + "px";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 7000);
+    }
+
+    setInterval(createHeart, 400);
+
+    /* No button logic */
+    const noBtn = document.getElementById("noBtn");
+    const container = document.querySelector(".buttons");
+
+    function moveButton() {
+        const maxX = container.clientWidth - noBtn.offsetWidth;
+        const maxY = container.clientHeight - noBtn.offsetHeight;
+
+        const randomX = Math.random() * maxX;
+        const randomY = Math.random() * maxY;
+
+        noBtn.style.left = randomX + "px";
+        noBtn.style.top = randomY + "px";
+    }
+
+    // Desktop
+    noBtn.addEventListener("mouseenter", moveButton);
+
+    // Android / touch devices
+    noBtn.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        moveButton();
+    });
+
+    noBtn.addEventListener("touchmove", (e) => {
+        e.preventDefault();
+        moveButton();
+    });
+
+    // Block clicking "No"
+    noBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+    });
+
+    function yesClicked() {
+        alert("Yay! ❤️ Happy Valentine’s Day!");
+    }
+</script>
+
+</body>
+</html>
